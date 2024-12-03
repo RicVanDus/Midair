@@ -7,15 +7,15 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "39acfdd6-77bd-4216-9f03-df9fe5419335",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Fire",
                     "type": "Button",
                     "id": "53551d28-758c-4510-be37-685e8d57a4e5",
                     "expectedControlType": "",
@@ -26,20 +26,9 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "0116b796-2195-4dbd-8ab7-9d6351d74028",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "765885a3-0dfc-4493-bc8e-a6ed2d7d1cb7",
-                    "path": "1DAxis",
+                    "name": "2D Vector",
+                    "id": "f984e295-6337-4990-8da9-e12f7639711e",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -48,23 +37,45 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "c1ec9b06-f55b-4363-927d-cd9f38a188b6",
-                    "path": "<Keyboard>/a",
+                    "name": "up",
+                    "id": "06bb93da-755f-42ae-8cad-00b41d49aa25",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";MouseKeyboard",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "0083c566-54dc-4ca8-bc34-122f0651879b",
+                    "name": "down",
+                    "id": "4d59b73f-c34c-48a3-8caf-c9bde21a1eef",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";MouseKeyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "6ce15653-7325-4dd4-9477-d826deefc0d7",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";MouseKeyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "f8e00ce2-2996-4c73-acab-62a7c77440a8",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";MouseKeyboard",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -76,7 +87,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -111,5 +122,22 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "MouseKeyboard",
+            "bindingGroup": "MouseKeyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

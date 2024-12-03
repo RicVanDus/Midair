@@ -10,6 +10,8 @@ public class TargetCubes : MonoBehaviour
     
     public Vector3 forceDir;
     public float forceStrength;
+
+    public CubeTypes cubeType;
     
     void Start()
     {
@@ -37,4 +39,16 @@ public class TargetCubes : MonoBehaviour
         if (_rigidbody != null)
             _rigidbody.AddForce(completeForce);
     }
+    
+
+}
+
+
+
+
+public enum CubeTypes
+{
+    Small,
+    Medium,
+    Large
 }
