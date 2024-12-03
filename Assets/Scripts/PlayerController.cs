@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private InputAction fire;
 
     public float moveSpeed;
+
+    [SerializeField] private GameObject _missileObj;
     
     private Rigidbody _rigidbody;
     private Vector2 _moveDirection;
@@ -24,6 +26,9 @@ public class PlayerController : MonoBehaviour
     private float _mousePos_y;
 
     private Camera _cam;
+
+    private Vector3 _cursorWorldPos;
+
 
     private void Awake()
     {
@@ -93,6 +98,7 @@ public class PlayerController : MonoBehaviour
             Vector3.Distance(transform.position, _cam.transform.position));
 
         Vector3 cursorPosWorld = _cam.ViewportToWorldPoint(cursorPosScreen);
+        _cursorWorldPos = cursorPosWorld;
 
         cursorPosWorld.z = 0f;
 
@@ -101,6 +107,9 @@ public class PlayerController : MonoBehaviour
 
     private void Fire(InputAction.CallbackContext context)
     {
-        Debug.Log("FIRE");
+        Quaternion missileRot = Quaternion.FromToRotation(transform.position, _cursorWorldPos);
+        Vector3 missileStartPos = ((_cursorWorldPos - transform.position).normalized * 2f) + transform.position;
+
+        Instantiate(_missileObj, missileStartPos, missileRot);
     }
 }

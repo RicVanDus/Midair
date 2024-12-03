@@ -5,13 +5,16 @@ public class Missile : MonoBehaviour
 {
     public float missileSpeed;
 
+    public float explodeAfterSec = 3f;
+    private float _timer;
 
     private Rigidbody _rigidbody;
 
     private Vector3 _forceDir;
 
     [SerializeField] private GameObject _explosionEffect;
-    
+
+    private bool _bCountDownToDestruction;
     
     void Start()
     {
@@ -21,14 +24,30 @@ public class Missile : MonoBehaviour
 
     void Update()
     {
-        _rigidbody.AddForce(_forceDir);
-        
+        _rigidbody.AddRelativeForce(_forceDir);
+
+        if (_bCountDownToDestruction)
+        {
+            _timer += Time.deltaTime;
+            if (_timer > explodeAfterSec)
+                Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("BOOM");
+        Explode();
     }
     
+    private void Explode()
+    {
+        Instantiate(_explosionEffect, transform.position, Quaternion.identity);
+        //hide missile mesh, destroy the whole thing after 3 seconds
+        //stop particle system
+
+        GetComponent<MeshRenderer>().enabled = false;
+        _bCountDownToDestruction = true;
+        
+    }
     
 }

@@ -177,7 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileSpeed: 20
-  _explosionEffect: {fileID: 0}
+  _explosionEffect: {fileID: 9024281668993616925, guid: 84fa29d912549c2488226799de33b348,
+    type: 3}
 --- !u!54 &8982263282961980260
 Rigidbody:
   m_ObjectHideFlags: 0
