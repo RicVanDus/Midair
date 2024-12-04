@@ -68,6 +68,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d37712da1ac5804c96e0679a84cc53c, type: 3}
+--- !u!198 &2799171040001177898 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9015956302593865842, guid: 6d37712da1ac5804c96e0679a84cc53c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6613460495298560344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7813743362893727904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4010531847204325880, guid: 6d37712da1ac5804c96e0679a84cc53c,
@@ -135,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0455732496e45234a90c4375aead616e,
         type: 3}
       propertyPath: m_Name
-      value: missile
+      value: MissilePrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -177,8 +183,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileSpeed: 20
+  explodeAfterSec: 3
   _explosionEffect: {fileID: 9024281668993616925, guid: 84fa29d912549c2488226799de33b348,
     type: 3}
+  _smokeTrail: {fileID: 2799171040001177898}
 --- !u!54 &8982263282961980260
 Rigidbody:
   m_ObjectHideFlags: 0

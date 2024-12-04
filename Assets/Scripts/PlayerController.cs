@@ -98,18 +98,19 @@ public class PlayerController : MonoBehaviour
             Vector3.Distance(transform.position, _cam.transform.position));
 
         Vector3 cursorPosWorld = _cam.ViewportToWorldPoint(cursorPosScreen);
-        _cursorWorldPos = cursorPosWorld;
-
         cursorPosWorld.z = 0f;
+        _cursorWorldPos = cursorPosWorld;
 
         Debug.DrawLine(transform.position, cursorPosWorld, Color.red);
     }
 
     private void Fire(InputAction.CallbackContext context)
     {
-        Quaternion missileRot = Quaternion.FromToRotation(transform.position, _cursorWorldPos);
-        Vector3 missileStartPos = ((_cursorWorldPos - transform.position).normalized * 2f) + transform.position;
-
+        Vector3 startPoint = transform.position;
+        startPoint.y += 1f;
+        Vector3 missileStartPos = ((_cursorWorldPos - startPoint).normalized) + startPoint;
+        Quaternion missileRot = Quaternion.LookRotation(_cursorWorldPos - transform.position);
+        
         Instantiate(_missileObj, missileStartPos, missileRot);
     }
 }

@@ -13,13 +13,17 @@ public class Missile : MonoBehaviour
     private Vector3 _forceDir;
 
     [SerializeField] private GameObject _explosionEffect;
-
+    [SerializeField] private ParticleSystem _smokeTrail;
+    
     private bool _bCountDownToDestruction;
+
+    private Collider _collider;
     
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _forceDir = new Vector3(0f, 1f, 0f) * missileSpeed;
+        _forceDir = Vector3.forward * missileSpeed;
+        _collider = GetComponent<Collider>();
     }
 
     void Update()
@@ -37,14 +41,16 @@ public class Missile : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Explode();
+        
     }
     
     private void Explode()
     {
+        _collider.enabled = false;
         Instantiate(_explosionEffect, transform.position, Quaternion.identity);
         //hide missile mesh, destroy the whole thing after 3 seconds
         //stop particle system
-
+        _smokeTrail.Stop();
         GetComponent<MeshRenderer>().enabled = false;
         _bCountDownToDestruction = true;
         
