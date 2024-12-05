@@ -25,19 +25,22 @@ public class PlayerController : MonoBehaviour
     private float _mousePos_x;
     private float _mousePos_y;
 
+    private float _startPointOffset = 1f;
+
     private Camera _cam;
 
     private Vector3 _cursorWorldPos;
+    private Vector3 _launcherStartPoint;
 
+    private Vector3[] _aimLinePositions = new Vector3[2];
+
+    [SerializeField] private LineRenderer _aimLine;
 
     private void Awake()
     {
         playerControls = new MidairInputs();
         _rigidbody = GetComponent<Rigidbody>();
-        _cam = Camera.main;
-
-        _screenHeight = Screen.height;
-        _screenWidth = Screen.width;
+        _cam = Camera.main;        
     }
     
     
@@ -61,12 +64,17 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
+
+        _screenHeight = Screen.height;
+        _screenWidth = Screen.width;
         
     }
 
     private void Update()
     {
         _moveDirection = move.ReadValue<Vector2>();
+        _launcherStartPoint = transform.position;
+        _launcherStartPoint.y += _startPointOffset;
 
         Vector3 mousePosition = Input.mousePosition;
         _mousePos_x = mousePosition.x / _screenWidth;
@@ -102,15 +110,23 @@ public class PlayerController : MonoBehaviour
         _cursorWorldPos = cursorPosWorld;
 
         Debug.DrawLine(transform.position, cursorPosWorld, Color.red);
+        UpdateAimLine();
     }
 
     private void Fire(InputAction.CallbackContext context)
     {
-        Vector3 startPoint = transform.position;
-        startPoint.y += 1f;
-        Vector3 missileStartPos = ((_cursorWorldPos - startPoint).normalized) + startPoint;
-        Quaternion missileRot = Quaternion.LookRotation(_cursorWorldPos - transform.position);
+        Vector3 missileStartPos = ((_cursorWorldPos - _launcherStartPoint).normalized) + _launcherStartPoint;
+        Quaternion missileRot = Quaternion.LookRotation(_cursorWorldPos - _launcherStartPoint);
         
         Instantiate(_missileObj, missileStartPos, missileRot);
+    }
+
+    private void UpdateAimLine()
+    {
+        _aimLinePositions[0] = _launcherStartPoint;
+        _aimLinePositions[1] = _cursorWorldPos;
+        
+        
+        _aimLine.SetPositions(_aimLinePositions);
     }
 }
