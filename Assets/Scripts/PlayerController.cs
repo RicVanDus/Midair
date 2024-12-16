@@ -65,13 +65,14 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
 
-        _screenHeight = Screen.height;
-        _screenWidth = Screen.width;
         
     }
 
     private void Update()
     {
+        _screenHeight = Screen.height;
+        _screenWidth = Screen.width;
+
         _moveDirection = move.ReadValue<Vector2>();
         _launcherStartPoint = transform.position;
         _launcherStartPoint.y += _startPointOffset;
