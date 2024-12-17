@@ -31,10 +31,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _cursorWorldPos;
     private Vector3 _launcherStartPoint;
+    private Vector3 _aimLineEndPoint;
 
     private Vector3[] _aimLinePositions = new Vector3[2];
 
     [SerializeField] private LineRenderer _aimLine;
+    [SerializeField] private LayerMask _aimLayerMask; 
 
     private void Awake()
     {
@@ -109,8 +111,25 @@ public class PlayerController : MonoBehaviour
         Vector3 cursorPosWorld = _cam.ViewportToWorldPoint(cursorPosScreen);
         cursorPosWorld.z = 0f;
         _cursorWorldPos = cursorPosWorld;
+        
+        Vector3 rayCastTarget = ((_cursorWorldPos - _launcherStartPoint) * 100f) + _launcherStartPoint;
+        Vector3 rayCastDirection = (_cursorWorldPos - _launcherStartPoint).normalized;
+        ;
+        
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(_launcherStartPoint, rayCastDirection, out hit, 500f, _aimLayerMask))
+        { 
+            //Debug.DrawRay(_launcherStartPoint, rayCastDirection * hit.distance, Color.yellow);
+            _aimLineEndPoint = hit.point;
+        }
+        else
+        { 
+            //Debug.DrawRay(_launcherStartPoint, rayCastDirection * 500f, Color.white); 
+            _aimLineEndPoint = rayCastDirection * 500f;
+        }
 
-        Debug.DrawLine(transform.position, cursorPosWorld, Color.red);
+        //Debug.DrawLine(_launcherStartPoint, rayCastTarget, Color.red);
         UpdateAimLine();
     }
 
@@ -125,7 +144,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAimLine()
     {
         _aimLinePositions[0] = _launcherStartPoint;
-        _aimLinePositions[1] = _cursorWorldPos;
+        _aimLinePositions[1] = _aimLineEndPoint;
         
         
         _aimLine.SetPositions(_aimLinePositions);

@@ -15,6 +15,8 @@ public class TargetCubes : MonoBehaviour
 
     public CubeTypes cubeType;
 
+    public GameObject cubeParticles;
+
     private float _hitPoints = 100f;
     
     void Start()
@@ -82,7 +84,8 @@ public class TargetCubes : MonoBehaviour
 
         if (_hitPoints < 0)
         {
-            Debug.Log("DEAD");
+            // DEATH
+            Instantiate(cubeParticles, transform.position, Quaternion.identity);
             Destroy(gameObject);
         } 
         else
@@ -133,6 +136,12 @@ public class TargetCubes : MonoBehaviour
                     _hitPoints = 300f;
                 }
                 break;
+        }
+        
+        //Spawn particles on sizechange
+        if (!setHitpoints)
+        {
+            Instantiate(cubeParticles, transform.position, Quaternion.identity);
         }
     }
 
