@@ -155,6 +155,7 @@ MonoBehaviour:
   cubeType: 2
   cubeParticles: {fileID: 4832935924392510185, guid: 18957d4c6dd6ad74d9fd8087099af442,
     type: 3}
+  crystal: {fileID: 436771407279386538, guid: dbfb776c957182142b6628942c8a22d1, type: 3}
 --- !u!135 &166510285672472482
 SphereCollider:
   m_ObjectHideFlags: 0

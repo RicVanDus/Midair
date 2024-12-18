@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
+using Random = UnityEngine.Random;
 
 public class TargetCubes : MonoBehaviour
 {
@@ -16,18 +19,22 @@ public class TargetCubes : MonoBehaviour
     public CubeTypes cubeType;
 
     public GameObject cubeParticles;
+    public GameObject crystal;
 
     private float _hitPoints = 100f;
+   
     
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         SetCubeType(cubeType, true);
+        
+
     }
 
     void Update()
     {
-
+        
     }
 
     void Force(Vector3 forceDir, float forceStrength)
@@ -84,9 +91,7 @@ public class TargetCubes : MonoBehaviour
 
         if (_hitPoints < 0)
         {
-            // DEATH
-            Instantiate(cubeParticles, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Death();
         } 
         else
         {
@@ -143,6 +148,25 @@ public class TargetCubes : MonoBehaviour
         {
             Instantiate(cubeParticles, transform.position, Quaternion.identity);
         }
+    }
+
+    private void Death()
+    {
+        // DEATH
+        Instantiate(cubeParticles, transform.position, Quaternion.identity);
+
+        for (int i = 0; i < 4; i++)
+        {
+            float randomFloat = Random.Range(0f, 360f);
+            Vector3 randomRot = Vector3.one * randomFloat;
+            
+            var crystalObj = Instantiate(crystal, transform.position, Quaternion.Euler(randomRot));
+
+            float xForce = Random.Range(-1f, 1f) * 1000f;
+            crystalObj.GetComponent<Rigidbody>().AddForce(new Vector3(xForce, 50f, 0f));
+        }
+        
+        Destroy(gameObject);
     }
 
 }

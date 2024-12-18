@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private int _screenWidth;
     private int _screenHeight;
+    private int _shaderPlayerPosId;
 
     private float _mousePos_x;
     private float _mousePos_y;
@@ -37,6 +38,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LineRenderer _aimLine;
     [SerializeField] private LayerMask _aimLayerMask; 
+    
+    
+    // attributes
+    private float _hitPoints = 100f;
 
     private void Awake()
     {
@@ -67,13 +72,15 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
 
-        
+        _shaderPlayerPosId = Shader.PropertyToID("_PlayerPos");
     }
 
     private void Update()
     {
         _screenHeight = Screen.height;
         _screenWidth = Screen.width;
+        
+        Shader.SetGlobalVector(_shaderPlayerPosId, transform.position);
 
         _moveDirection = move.ReadValue<Vector2>();
         _launcherStartPoint = transform.position;
