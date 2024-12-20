@@ -55,6 +55,7 @@ Material:
     - _Glowness: 35.52
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Smoothness: 0.6
     m_Colors:
     - _Color: {r: 0, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

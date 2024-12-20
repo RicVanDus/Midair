@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     private InputAction fire;
 
     public float moveSpeed;
+    public float rocketCooldown;
+
+    private float rocketCDtimer;
 
     [SerializeField] private GameObject _missileObj;
     
@@ -37,7 +40,12 @@ public class PlayerController : MonoBehaviour
     private Vector3[] _aimLinePositions = new Vector3[2];
 
     [SerializeField] private LineRenderer _aimLine;
-    [SerializeField] private LayerMask _aimLayerMask; 
+    [SerializeField] private LayerMask _aimLayerMask;
+
+    private Material _aimLineMat;
+    private int _aimLineMatColorID;
+    public Color _aimLineColorDefault;
+    public Color _aimLineColorNA;
     
     
     // attributes
@@ -47,7 +55,8 @@ public class PlayerController : MonoBehaviour
     {
         playerControls = new MidairInputs();
         _rigidbody = GetComponent<Rigidbody>();
-        _cam = Camera.main;        
+        _cam = Camera.main;
+        _aimLineMat = _aimLine.GetComponent<Renderer>().material;
     }
     
     
@@ -71,8 +80,9 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-
         _shaderPlayerPosId = Shader.PropertyToID("_PlayerPos");
+        _aimLineMatColorID = Shader.PropertyToID("_Color");
+        
     }
 
     private void Update()
@@ -93,6 +103,8 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(_mousePos_x + " - " + _mousePos_y);
 
         GetAimRotation();
+
+        rocketCDtimer -= Time.deltaTime;
 
         //Make a direction vector from this objects origin to the mouse cursor. Should serve as a rotation for the rocket
 
@@ -131,7 +143,7 @@ public class PlayerController : MonoBehaviour
             _aimLineEndPoint = hit.point;
         }
         else
-        { 
+        {
             //Debug.DrawRay(_launcherStartPoint, rayCastDirection * 500f, Color.white); 
             _aimLineEndPoint = rayCastDirection * 500f;
         }
@@ -142,18 +154,36 @@ public class PlayerController : MonoBehaviour
 
     private void Fire(InputAction.CallbackContext context)
     {
-        Vector3 missileStartPos = ((_cursorWorldPos - _launcherStartPoint).normalized) + _launcherStartPoint;
-        Quaternion missileRot = Quaternion.LookRotation(_cursorWorldPos - _launcherStartPoint);
-        
-        Instantiate(_missileObj, missileStartPos, missileRot);
+        if (rocketCDtimer < 0f)
+        {
+            Vector3 missileStartPos = ((_cursorWorldPos - _launcherStartPoint).normalized) + _launcherStartPoint;
+            Quaternion missileRot = Quaternion.LookRotation(_cursorWorldPos - _launcherStartPoint);
+
+            var missile = Instantiate(_missileObj, missileStartPos, missileRot);
+            rocketCDtimer = rocketCooldown;
+        }            
     }
 
     private void UpdateAimLine()
     {
+
         _aimLinePositions[0] = _launcherStartPoint;
         _aimLinePositions[1] = _aimLineEndPoint;
-        
-        
+
         _aimLine.SetPositions(_aimLinePositions);
+
+        Color aimLineColor = Color.white;
+
+        if (rocketCDtimer < 0f)
+        {
+            aimLineColor = _aimLineColorDefault;
+        }
+        else
+        {
+            aimLineColor = _aimLineColorNA;
+        }
+
+        _aimLineMat.SetColor(_aimLineMatColorID, aimLineColor);
+
     }
 }

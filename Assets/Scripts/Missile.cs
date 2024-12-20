@@ -10,7 +10,7 @@ public class Missile : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
-    private Vector3 _forceDir;
+    public Vector3 forceDir;
 
     [SerializeField] private GameObject _explosionEffect;
     [SerializeField] private ParticleSystem _smokeTrail;
@@ -22,13 +22,16 @@ public class Missile : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _forceDir = Vector3.forward * missileSpeed;
+        
         _collider = GetComponent<Collider>();
     }
 
     void Update()
     {
-        _rigidbody.AddRelativeForce(_forceDir);
+        //_rigidbody.AddRelativeForce(_forceDir);
+        
+        // not accellerating, but always constant speed
+        _rigidbody.linearVelocity = transform.forward * missileSpeed;
 
         if (_bCountDownToDestruction)
         {
