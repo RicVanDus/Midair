@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using Random = UnityEngine.Random;
 
-public class TargetCubes : MonoBehaviour
+public class EnemyBase : MonoBehaviour
 {
 
     private float _timer = 0f;
