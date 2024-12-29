@@ -12,9 +12,9 @@ public class PlayerController : MonoBehaviour
     private InputAction move;
     private InputAction fire;
 
+    // move and shoot vars
     public float moveSpeed;
     public float rocketCooldown;
-
     private float rocketCDtimer;
 
     [SerializeField] private GameObject _missileObj;
@@ -47,9 +47,11 @@ public class PlayerController : MonoBehaviour
     public Color _aimLineColorDefault;
     public Color _aimLineColorNA;
     
-    
+
     // attributes
     private float _hitPoints = 100f;
+    public float playerScore { get; private set; }
+    public float playerHealthPercentage { get; private set; } 
 
     private void Awake()
     {

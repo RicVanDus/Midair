@@ -165,6 +165,8 @@ public class EnemyBase : MonoBehaviour
             float xForce = Random.Range(-1f, 1f) * 1000f;
             crystalObj.GetComponent<Rigidbody>().AddForce(new Vector3(xForce, 50f, 0f));
         }
+
+        GameManager.Instance.currentLevelManager.ThisDestroyedEnemy(this);  
         
         Destroy(gameObject);
     }
